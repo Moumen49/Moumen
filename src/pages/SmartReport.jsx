@@ -45,26 +45,34 @@ const processLocalSmartValue = (description, family, members) => {
     if (desc.includes('اناث') || desc.includes('نساء') || desc.includes('أنثى')) return members.filter(m => m.gender === 'female' || m.gender === 'أنثى').length;
     if (desc.includes('ذكور') || desc.includes('رجال') || desc.includes('ذكر')) return members.filter(m => m.gender === 'male' || m.gender === 'ذكر').length;
 
-    // معالجة طلب اسم الزوجة محلياً
-    if (desc.includes('زوجة') || desc.includes('شريك')) {
-        const wife = members.find(m => m.role && (m.role.includes('زوجة') || m.role.includes('ثانية')));
+    // معالجة طلب اسم الزوجة محلياً (دعم عربي وإنجليزي)
+    if (desc.includes('زوجة') || desc.includes('شريك') || desc.includes('wife')) {
+        const wife = members.find(m => m.role && (
+            m.role.toLowerCase().includes('wife') ||
+            m.role.includes('زوجة') ||
+            m.role.includes('زوجه')
+        ));
         return wife?.name || '-';
     }
 
-    // معالجة طلب اسم الزوج محلياً
-    if (desc.includes('اسم الزوج') || desc.includes('اسم الاب')) {
-        const husband = members.find(m => m.role && (m.role.includes('زوج') || m.role.includes('أب')));
+    // معالجة طلب اسم الزوج محلياً (دعم عربي وإنجليزي)
+    if (desc.includes('اسم الزوج') || desc.includes('اسم الاب') || desc.includes('husband')) {
+        const husband = members.find(m => m.role && (
+            m.role.toLowerCase().includes('husband') ||
+            m.role.includes('زوج') ||
+            m.role.includes('أب')
+        ));
         return husband?.name || '-';
     }
 
     // معالجة تواريخ الميلاد
-    if (desc.includes('تاريخ ميلاد') || desc.includes('تاريخ الميلاد')) {
-        if (desc.includes('رب') || desc.includes('الاب') || desc.includes('الزوج')) {
+    if (desc.includes('تاريخ ميلاد') || desc.includes('تاريخ الميلاد') || desc.includes('dob')) {
+        if (desc.includes('رب') || desc.includes('الاب') || desc.includes('الزوج') || desc.includes('husband')) {
             const head = findHeadOfFamily(members);
             return head?.dob || '-';
         }
-        if (desc.includes('زوجة')) {
-            const wife = members.find(m => m.role && m.role.includes('زوجة'));
+        if (desc.includes('زوجة') || desc.includes('wife')) {
+            const wife = members.find(m => m.role && (m.role.toLowerCase().includes('wife') || m.role.includes('زوجة')));
             return wife?.dob || '-';
         }
     }
