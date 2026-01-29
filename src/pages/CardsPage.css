@@ -1,0 +1,86 @@
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        background: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .page {
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        page-break-after: always;
+    }
+}
+
+.page {
+    width: 210mm;
+    height: 297mm;
+    padding: 5mm 5mm 5mm 15mm;
+    /* Increased left padding as requested */
+    margin: 5mm auto;
+    background: white;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 0.4mm;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* Ensure content doesn't bleed */
+}
+
+.card {
+    border: 0.8px solid #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+    height: 100%;
+}
+
+.wave-top,
+.wave-bottom {
+    width: 100%;
+    height: 8px;
+    line-height: 0;
+}
+
+.wave-top svg {
+    fill: #1e3a8a;
+    opacity: 0.25;
+}
+
+.wave-bottom svg {
+    fill: #b45309;
+    opacity: 0.25;
+}
+
+.tent-watermark {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    opacity: 0.05;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.content-container {
+    padding: 2px 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+}
